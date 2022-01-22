@@ -1,0 +1,50 @@
+[
+    {
+        "fields": {
+            "distance": 5,
+            "date": "2020-01-01"
+        },
+        "pk": 1,
+        "model": "filter.travel"
+    },
+    {
+        "fields": {
+            "distance": 10,
+            "date": "2020-01-02"
+        },
+        "pk": 2,
+        "model": "filter.travel"
+    },
+    {
+        "fields": {
+            "distance": 15,
+            "date": "2020-02-01"
+        },
+        "pk": 3,
+        "model": "filter.travel"
+    },
+    {
+        "fields": {
+            "distance": 20,
+            "date": "2020-02-02"
+        },
+        "pk": 4,
+        "model": "filter.travel"
+    },
+    {
+        "fields": {
+            "distance": 25,
+            "date": "2020-03-01"
+        },
+        "pk": 5,
+        "model": "filter.travel"
+    },
+    {
+        "fields": {
+            "distance": 30,
+            "date": "2020-03-02"
+        },
+        "pk": 6,
+        "model": "filter.travel"
+    }
+]
