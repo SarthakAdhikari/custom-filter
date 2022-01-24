@@ -1,0 +1,32 @@
+#+TITLE: Readme
+
+Demo: custom-filter.herokuapp.com
+
+For our mini-technical assignment, we’d like you to build a custom filtering feature to support complex
+queries in Django. The API filtering should allow using parenthesis for defining operations, precedence,
+and allow the use any combination of the available fields. The supported operations should include or,
+and, eq (equals), ne (not equals), gt (greater than), lt (lower than).
+
+As examples:
+
+Example 1:
+#+begin_example
+(date eq 2016-05-01) AND ((distance gt 20) OR (distance lt 10))
+#+end_example
+
+Example 2
+#+begin_example
+distance lt 10
+#+end_example
+
+#+begin_src python :eval no
+def parse_search_phrase(allowed_fields, phrase):
+    ...
+return Q(...)
+#+end_src
+
+The final program should be able to be used as follows:
+#+begin_src python :eval no
+search_filter = parse_search_phrase(allowed_fields, search_phrase)
+queryset = MyModel.objects.filter(search_filter)
+#+end_src
