@@ -16,9 +16,8 @@ def travel_list(request):
 
     custom_filter = CustomFilter(allowed_fields=allowed_fields, phrase=phrase)
 
-    filters = custom_filter.parse_search_phrase()
-
     try:
+        filters = custom_filter.parse_search_phrase()
         travels = Travel.objects.filter(filters)
         context.update({"travels": travels})
     except (FieldError, ValueError) as e:
