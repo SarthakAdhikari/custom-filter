@@ -59,7 +59,8 @@ class CustomFilter:
                 stack.append(token)
 
         for operator in reversed(operators):
-            assert operator != "("
+            if operator == "(":
+                raise ValueError("Unmatched paranthesis in search phrase.")
             stack.append(operator)
 
         return stack

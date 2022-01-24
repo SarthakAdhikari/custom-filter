@@ -21,7 +21,7 @@ def travel_list(request):
     try:
         travels = Travel.objects.filter(filters)
         context.update({"travels": travels})
-    except (FieldError, AssertionError) as e:
+    except (FieldError, ValueError) as e:
         context.update({"error": str(e)})
 
     return render(request, "index.html", context)
