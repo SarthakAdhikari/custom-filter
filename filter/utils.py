@@ -6,7 +6,7 @@ class CustomFilter:
     tokenizer_regex = r"([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}|\b\w*[\.]?\w+\b|[\(\)])"
     word_operators = ["eq", "ne", "lt", "gt", "AND", "OR"]
     all_operators = word_operators + ["(", ")"]
-    boolean_operators = ["AND", "OR", "NOT"]
+    boolean_operators = ["AND", "OR"]
     precedence = {
         "eq": 2,
         "ne": 3,
