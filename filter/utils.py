@@ -28,12 +28,14 @@ class CustomFilter:
         stack = []
 
         for token in tokens:
-
             if token in self.word_operators:
                 while (
-                    operators
-                    and (operators[-1] in self.all_operators and operators[-1] != "(")
-                    and self.precedence.get(operators[-1]) >= self.precedence.get(token)
+                        operators
+                        and (
+                            operators[-1] in self.all_operators and operators[-1] != "(")
+                        and (
+                            self.precedence.get(operators[-1]) >= self.precedence.get(token)
+                        )
                 ):
                     stack.append(operators.pop())
 
@@ -66,6 +68,7 @@ class CustomFilter:
         token_index_to_remove = set()
 
         for index, token in enumerate(tokens):
+            # is token a value like `2020-01-01`?
             is_value = index % 3 == 1
 
             if token in self.word_operators:
@@ -74,14 +77,15 @@ class CustomFilter:
             if token not in self.allowed_fields and not is_value:
                 token_index_to_remove.update([index, index+1, index+2])
 
-        tokens = [val for ind, val in enumerate(tokens) if ind not in token_index_to_remove]
+        tokens = [val for ind, val in enumerate(tokens)
+                  if ind not in token_index_to_remove]
+
         return tokens
 
     def postfix_to_q(self, tokens):
         stack = []
 
         for index, token in enumerate(tokens):
-
             if (token not in self.word_operators):
                 stack.append(token)
             elif token in self.word_operators:
@@ -107,8 +111,8 @@ class CustomFilter:
 
     def parse_search_phrase(self):
         tokens = self.tokenize(self.phrase)
-        postfix_tokens = self.to_postfix(tokens)
 
+        postfix_tokens = self.to_postfix(tokens)
 
         filtered_postfix_tokens = self.filter_allowed_fields(
             allowed_fields=self.allowed_fields,
