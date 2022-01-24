@@ -11,6 +11,11 @@
 
 <div class="container mt-3">
   <h2>Walk Tracker</h2>
+  {% if error %}
+      <div class="alert alert-danger" role="alert">
+          {{error}}
+      </div>
+  {% endif %}
   <div class="input-group">
       <form action="" method="GET">
           <div class="form-outline">

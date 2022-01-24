@@ -1,18 +1,16 @@
 from django.shortcuts import render, HttpResponse
+from django.core.exceptions import FieldError
 
 from filter.models import Travel
 from filter.utils import CustomFilter
 
-def parse_search_phrase(allowed_fields, search_phrase):
-    print(f"allowed_fields = {allowed_fields}")
-    print(f"search_phrase = {search_phrase}")
-    return {}
 
 def travel_list(request):
     """
     Returns page containing list of all travels along
     with their date and distance.
     """
+    context = {}
     phrase = request.GET.get("phrase", "")
     allowed_fields = request.GET.getlist("allowed_fields[]", "")
 
@@ -20,6 +18,10 @@ def travel_list(request):
 
     filters = custom_filter.parse_search_phrase()
 
-    travels = Travel.objects.filter(filters)
+    try:
+        travels = Travel.objects.filter(filters)
+        context.update({"travels": travels})
+    except FieldError as e:
+        context.update({"error": str(e)})
 
-    return render(request, "index.html", context={"travels": travels})
+    return render(request, "index.html", context)
