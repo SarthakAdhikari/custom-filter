@@ -24,3 +24,10 @@ def travel_list(request):
         context.update({"error": str(e)})
 
     return render(request, "index.html", context)
+
+# def home(request):
+#     """
+#     Returns page containing list of all travels along
+#     with their date and distance.
+#     """
+#     return render(request, "index.html")
