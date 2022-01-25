@@ -97,17 +97,3 @@ class TestCustomFilter(TestCase):
 
         self.assertTrue(set(filtered_results) == expected_results)
 
-    def test_precedence_works(self):
-        search_phrase = "(date eq 2016-05-01) AND ((distance gt 20) AND (distance lt 22))"
-        allowed_fields = ["distance", "date"]
-
-        custom_filter = CustomFilter(
-            allowed_fields=allowed_fields,
-            phrase=search_phrase
-        )
-        filters = custom_filter.parse_search_phrase()
-        filtered_results = Travel.objects.filter(filters).values_list('id', flat=True)
-
-        expected_results = set([1, 2, 3, 4, 5, 6])
-
-        self.assertTrue(set(filtered_results) == expected_results)
