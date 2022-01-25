@@ -3,7 +3,15 @@ import re
 from django.db.models import Q
 
 class CustomFilter:
+    """The custom filter implementation entity
+
+    :param allowed_fields: The list of fields upon which the filter should act
+    :param phrase: The query string provided by the user as input
+    """
+
+    # either match date or (word or decimal number) or parens
     tokenizer_regex = r"([0-9]{4}-[0-9]{1,2}-[0-9]{1,2}|\b\w*[\.]?\w+\b|[\(\)])"
+
     word_operators = ["eq", "ne", "lt", "gt", "AND", "OR"]
     all_operators = word_operators + ["(", ")"]
     boolean_operators = ["AND", "OR"]
@@ -20,10 +28,19 @@ class CustomFilter:
         self.allowed_fields = allowed_fields
         self.phrase = phrase
 
-    def tokenize(self, source):
+    def tokenize(self, source: str) -> list[str]:
         return re.findall(self.tokenizer_regex, source)
 
-    def to_postfix(self, tokens):
+    def to_postfix(self, tokens: list[str]) -> list[str]:
+        """Convert tokens in infix format to tokens in postfix format.
+
+        Conversion is performed using the `Shunting yard` algorithm.
+        Reference: https://en.wikipedia.org/wiki/Shunting-yard_algorithm#The_algorithm_in_detail
+
+        :param tokens: list of tokens parsed from source string stored in infix format
+
+        :return: list of tokens converted in postfix format
+        """
         operators = []
         stack = []
 
@@ -65,25 +82,45 @@ class CustomFilter:
 
         return stack
 
-    def filter_allowed_fields(self, allowed_fields, tokens):
+    def filter_allowed_fields(
+            self,
+            allowed_fields: list[str],
+            tokens: list[str]
+    ) -> list[str]:
+        """Filters out tokens which are  not present in allowed_fields.
+
+        :param tokens: list of tokens in postfix format
+
+        :return: filtered list of tokens according to allowed_fields
+        """
+
         token_index_to_remove = set()
 
         for index, token in enumerate(tokens):
-            # is token a value like `2020-01-01`?
-            is_value = index % 3 == 1
-
             if token in self.word_operators:
                 continue
+
+            # is token a value like `2020-01-01` or `20` i.e.
+            # it should not be an operator
+            # and not a term like `date`, `distance` etc.
+            is_value = index % 3 == 1
 
             if token not in self.allowed_fields and not is_value:
                 token_index_to_remove.update([index, index+1, index+2])
 
+        # new list with the indexes of unallowed fields removed
         tokens = [val for ind, val in enumerate(tokens)
                   if ind not in token_index_to_remove]
 
         return tokens
 
-    def postfix_to_q(self, tokens):
+    def postfix_to_q(self, tokens: list[str]) -> Q:
+        """Convert tokens in postfix format to Q object.
+
+        :param tokens: list of tokens parsed from source string stored in infix format
+
+        :return: Q object with filter conditions from provided `tokens` argument
+        """
         stack = []
 
         for index, token in enumerate(tokens):
@@ -110,7 +147,13 @@ class CustomFilter:
 
         return stack[0] if stack else Q()
 
-    def parse_search_phrase(self):
+    def parse_search_phrase(self) -> Q:
+        """Uses phrase and allowed_fields to create Q object.
+
+        The `phrase` and `allowed_fields` are defined during class initialization.
+
+        :return: Q object constructed from user input
+        """
         tokens = self.tokenize(self.phrase)
 
         postfix_tokens = self.to_postfix(tokens)
