@@ -1,6 +1,11 @@
 #+TITLE: Readme
 
-Demo: custom-filter.herokuapp.com
+* Demo
+
+Link: custom-filter.herokuapp.com
+GIF:
+![](https://github.com/SarthakAdhikari/custom-filter/blob/main/demo.gif)
+
 
 For our mini-technical assignment, we’d like you to build a custom filtering feature to support complex
 queries in Django. The API filtering should allow using parenthesis for defining operations, precedence,
