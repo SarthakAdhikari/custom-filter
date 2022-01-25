@@ -5,7 +5,7 @@ from filter.models import Travel
 from filter.utils import CustomFilter
 
 
-def travel_list(request):
+def dashboard(request):
     """
     Returns page containing list of all travels along
     with their date and distance.
@@ -23,11 +23,11 @@ def travel_list(request):
     except (FieldError, ValueError) as e:
         context.update({"error": str(e)})
 
-    return render(request, "index.html", context)
+    return render(request, "dashboard.html", context)
 
-# def home(request):
-#     """
-#     Returns page containing list of all travels along
-#     with their date and distance.
-#     """
-#     return render(request, "index.html")
+def homepage(request):
+    """
+    Returns page containing list of all travels along
+    with their date and distance.
+    """
+    return render(request, "index.html")
