@@ -42,3 +42,9 @@ python manage.py migrate
 python manage.py loaddata fixtures.json
 python manage.py runserver
    #+end_src
+
+* For running unit tests for filter
+
+#+begin_src python :eval no
+python manage.py test
+#+end_src
