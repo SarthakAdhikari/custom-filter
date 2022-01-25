@@ -2,11 +2,12 @@
 
 * Demo
 
-Link: custom-filter.herokuapp.com
-GIF:
+Link: _custom-filter.herokuapp.com_
 
 [[https://github.com/SarthakAdhikari/custom-filter/blob/main/demo.gif]]
 
+_
+* Original Problem
 
 For our mini-technical assignment, we’d like you to build a custom filtering feature to support complex
 queries in Django. The API filtering should allow using parenthesis for defining operations, precedence,
@@ -37,7 +38,7 @@ search_filter = parse_search_phrase(allowed_fields, search_phrase)
 queryset = MyModel.objects.filter(search_filter)
 #+end_src
 
-* Implementation
+* Implementation detail
 
 First, the query params were tokenized and were converted from infix to
 postfix notation. This simplified the problem by removing precedence and
