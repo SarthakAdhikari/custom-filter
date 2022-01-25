@@ -30,3 +30,15 @@ The final program should be able to be used as follows:
 search_filter = parse_search_phrase(allowed_fields, search_phrase)
 queryset = MyModel.objects.filter(search_filter)
 #+end_src
+
+* Local Installation
+
+1. Clone this repo.
+
+2. Run the follwing inside repo root:
+   #+begin_src sh :eval no
+pip3 install -r requirements.txt
+python manage.py migrate
+python manage.py loaddata fixtures.json
+python manage.py runserver
+   #+end_src
