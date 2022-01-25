@@ -31,6 +31,13 @@ search_filter = parse_search_phrase(allowed_fields, search_phrase)
 queryset = MyModel.objects.filter(search_filter)
 #+end_src
 
+* Implementation
+
+First, the query params were tokenized and were converted from infix to
+postfix notation. This simplified the problem by removing precedence and
+the list of postfix notation tokens were filtered according to available_fields. Finally, the Q objects were created from the filtered
+post fix tokens.
+
 * Local Installation
 
 1. Clone this repo.
