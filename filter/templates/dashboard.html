@@ -112,10 +112,19 @@
                     </ol>
                 </nav>
                 <h1 class="h2">Dashboard</h1>
+
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{error}}
+                    </div>
+                {% endif %}
                 <p>The following is a list of your tracked miles.</p>
                 <div class="col-12 col-md-8 col-lg-3">
                     <form method="get" action="">
-                    <input oninput="checkIfInputValid()" class="form-control border mb-3 form-check-inline" type="text" placeholder="Search" aria-label="Search" id="search" name="phrase">
+                        <input oninput="checkIfInputValid()" class="form-control border mb-3 form-check-inline"
+                               type="text" placeholder="Search" aria-label="Search" id="search" name="phrase"
+                               value="{{current_phrase}}"
+                        >
                     <div>Available fields:</div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" name="allowed_fields[]" type="checkbox" id="inlineCheckbox1" value="date">

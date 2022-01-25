@@ -20,6 +20,7 @@ def dashboard(request):
         filters = custom_filter.parse_search_phrase()
         travels = Travel.objects.filter(filters)
         context.update({"travels": travels})
+        context.update({"current_phrase": phrase})
     except (FieldError, ValueError) as e:
         context.update({"error": str(e)})
 
