@@ -16,7 +16,7 @@ class CustomFilter:
     all_operators = word_operators + ["(", ")"]
     boolean_operators = ["AND", "OR"]
     precedence = {
-        "eq": 2,
+        "eq": 3,
         "ne": 3,
         "lt": 3,
         "gt": 3,
@@ -133,9 +133,12 @@ class CustomFilter:
                 second_last_item = stack.pop()
 
                 if token not in self.boolean_operators:
-                    if token == "ne":
+                    if token in ["ne", "eq"]:
                         q_param = {second_last_item: last_item}
-                        stack.append(~Q(**q_param))
+                        if token == "ne":
+                            stack.append(~Q(**q_param))
+                        else:
+                            stack.append(Q(**q_param))
                     else:
                         q_query_string = second_last_item + "__" + token
                         q_param = {q_query_string: last_item}
