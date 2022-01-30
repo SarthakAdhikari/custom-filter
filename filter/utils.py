@@ -29,7 +29,9 @@ class CustomFilter:
         self.phrase = phrase
 
     def tokenize(self, source: str) -> list[str]:
-        return re.findall(self.tokenizer_regex, source)
+        tokens = re.findall(self.tokenizer_regex, source)
+        return [token.upper() if token in ["and", "or"] else token
+                for token in tokens]
 
     def to_postfix(self, tokens: list[str]) -> list[str]:
         """Convert tokens in infix format to tokens in postfix format.
